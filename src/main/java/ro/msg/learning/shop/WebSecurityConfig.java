@@ -14,7 +14,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/h2-console/**")
+                .antMatchers("/api/**", "/h2-console/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // allow access to h2 console
         http.csrf()
-                .ignoringAntMatchers("/h2-console/**");
+                .ignoringAntMatchers("/h2-console/**", "/api/**");
 
         http.headers()
                 .frameOptions()
