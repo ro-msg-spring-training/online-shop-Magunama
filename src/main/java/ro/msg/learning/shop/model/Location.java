@@ -1,6 +1,7 @@
 package ro.msg.learning.shop.model;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,26 +9,26 @@ import javax.persistence.*;
 
 
 @Entity
-@Data @NoArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor
 @Table
 public class Location {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column
     private String name;
 
-    @Column(name = "Address.Country")
-    private String address_country;
+    @Column
+    private String addressCountry;
 
-    @Column(name = "Address.City")
-    private String address_city;
+    @Column
+    private String addressCity;
 
-    @Column(name = "Address.County")
-    private String address_county;
+    @Column
+    private String addressCounty;
 
-    @Column(name = "Address.StreetAddress")
-    private String address_streetAddress;
+    @Column
+    private String addressStreetAddress;
 }

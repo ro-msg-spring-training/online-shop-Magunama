@@ -1,6 +1,7 @@
 package ro.msg.learning.shop.model;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,19 +12,17 @@ import java.io.Serializable;
 @Embeddable
 class StockId implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Product_Id")
+    @JoinColumn(name = "Product")
     private Product product;
-//    private int product;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Location_Id")
+    @JoinColumn(name = "Location")
     private Location location;
-//    private int location;
 }
 
 
 @Entity
-@Data @NoArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor
 @Table
 public class Stock {
 

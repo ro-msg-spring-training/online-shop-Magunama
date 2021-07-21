@@ -1,6 +1,7 @@
 package ro.msg.learning.shop.model;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,12 +9,12 @@ import javax.persistence.*;
 
 
 @Entity
-@Data @NoArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor
 @Table
 public class ProductCategory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column
@@ -21,9 +22,4 @@ public class ProductCategory {
 
     @Column
     private String description;
-
-    public ProductCategory (String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
 }

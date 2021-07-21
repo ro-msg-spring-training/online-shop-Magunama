@@ -1,6 +1,6 @@
 alter table Product
     add foreign key (Category)
-    references ProductCategory(Id);
+    references Product_Category(Id);
 
 alter table Product
     add foreign key (Supplier)
@@ -14,19 +14,19 @@ alter table Stock
     add foreign key (Location)
     references Location(Id);
 
-alter table OrderDetail
+alter table Order_Detail
     add foreign key (`Order`)
-    references `Order`(Id);
+    references OrderT(Id);
 
-alter table OrderDetail
+alter table Order_Detail
     add foreign key (Product)
     references Product(Id);
 
-alter table `Order`
-    add foreign key (ShippedFrom)
+alter table OrderT
+    add foreign key (Shipped_From)
     references Location(Id);
 
-alter table `Order`
+alter table OrderT
     add foreign key (Customer)
     references Customer(Id);
 

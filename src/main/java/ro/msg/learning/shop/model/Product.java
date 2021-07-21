@@ -1,6 +1,7 @@
 package ro.msg.learning.shop.model;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,12 +10,12 @@ import java.math.BigDecimal;
 
 
 @Entity
-@Data @NoArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor
 @Table
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column
@@ -27,31 +28,16 @@ public class Product {
     private BigDecimal price;
 
     @Column
-    private double weight;
+    private Double weight;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ProductCategory_Id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "Category")
     private ProductCategory category;
-//    @Column
-//    private int category;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Supplier_Id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "Supplier")
     private Supplier supplier;
-//    @Column
-//    private int supplier;
 
     @Column
     private String imageUrl;
-
-//    public Product(String name, String description, BigDecimal price, Double weight, ProductCategory category,
-//                   Supplier supplier, String imageUrl) {
-//        this.name = name;
-//        this.description = description;
-//        this.price = price;
-//        this.weight = weight;
-//        this.category = category;
-//        this.supplier = supplier;
-//        this.imageUrl = imageUrl;
-//    }
 }

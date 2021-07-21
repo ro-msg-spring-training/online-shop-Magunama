@@ -1,6 +1,7 @@
 package ro.msg.learning.shop.model;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,38 +10,34 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Data @NoArgsConstructor
-@Table(name="`Order`")
+@Data @NoArgsConstructor @AllArgsConstructor
+@Table(name="ORDERT")
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Location_Id")
+    @JoinColumn(name = "Shipped_From")
     private Location shippedFrom;
-//    @Column
-//    private int shippedFrom;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Customer_Id")
+    @JoinColumn(name = "Customer")
     private Customer customer;
-//    @Column
-//    private int customer;
 
     @Column
     private LocalDateTime createdAt;
 
-    @Column(name = "Address.Country")
-    private String address_country;
+    @Column
+    private String addressCountry;
 
-    @Column(name = "Address.City")
-    private String address_city;
+    @Column
+    private String addressCity;
 
-    @Column(name = "Address.County")
-    private String address_county;
+    @Column
+    private String addressCounty;
 
-    @Column(name = "Address.StreetAddress")
-    private String address_streetAddress;
+    @Column
+    private String addressStreetAddress;
 }

@@ -1,4 +1,4 @@
-create table ProductCategory (
+create table Product_Category (
     Id int auto_increment primary key,
     Name varchar2(20),
     Description varchar2(50)
@@ -17,16 +17,16 @@ create table Product (
     Weight double,
     Category int,
     Supplier int,
-    ImageUrl varchar(50)
+    Image_Url varchar(50)
 );
 
 create table Location (
     Id int auto_increment primary key,
     Name varchar2(20),
-    `Address.Country` varchar2(30),
-    `Address.City` varchar2(20),
-    `Address.County` varchar2(10),
-    `Address.StreetAddress` varchar2(30)
+    Address_Country varchar2(30),
+    Address_City varchar2(20),
+    Address_County varchar2(10),
+    Address_Street_Address varchar2(30)
 );
 
 create table Stock (
@@ -38,11 +38,11 @@ create table Stock (
 
 create table Customer (
     Id int auto_increment primary key,
-    FirstName varchar2(20),
-    LastName varchar2(10),
+    First_Name varchar2(20),
+    Last_Name varchar2(10),
     Username varchar2(15),
     Password varchar2(30),
-    EmailAddress varchar2(30)
+    Email_Address varchar2(30)
 );
 
 create table Revenue (
@@ -52,20 +52,20 @@ create table Revenue (
     Sum decimal
 );
 
-create table `Order` (
+create table OrderT (
     Id int auto_increment primary key,
-    ShippedFrom int,
+    Shipped_From int,
     Customer int,
-    CreatedAt timestamp,
-    `Address.Country` varchar2(30),
-    `Address.City` varchar2(20),
-    `Address.County` varchar2(10),
-    `Address.StreetAddress` varchar2(30)
+    Created_At timestamp,
+    Address_Country varchar2(30),
+    Address_City varchar2(20),
+    Address_County varchar2(10),
+    Address_Street_Address varchar2(30)
 );
 
-create table OrderDetail (
+create table Order_Detail (
     `Order` int,
     Product int,
-    Quality int,
+    Quantity int,
     constraint PK_OrderDetail primary key (`Order`, Product)
 )
