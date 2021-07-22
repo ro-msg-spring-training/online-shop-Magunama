@@ -7,6 +7,9 @@ public class ProductCategoryConverter implements EntityDTOConverter <ProductCate
 
     @Override
     public ProductCategoryDTO toDTO(ProductCategory entity) {
+        if (entity == null) {
+            return null;
+        }
         return new ProductCategoryDTO(entity.getId(), entity.getName(), entity.getDescription());
 
     }

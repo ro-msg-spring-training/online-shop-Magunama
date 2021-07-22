@@ -64,8 +64,8 @@ create table OrderT (
 );
 
 create table Order_Detail (
-    `Order` int,
+    OrderC int,
     Product int,
     Quantity int,
-    constraint PK_OrderDetail primary key (`Order`, Product)
+    constraint PK_OrderDetail primary key (OrderC, Product)
 )

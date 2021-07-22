@@ -1,0 +1,13 @@
+package ro.msg.learning.shop.repository;
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+import ro.msg.learning.shop.model.Stock;
+
+import java.util.Optional;
+
+@Repository
+public interface StockRepository extends CrudRepository<Stock, Integer> {
+    Optional<Stock> findStockById(Stock.StockId stockId);
+    Optional<Stock> deleteStockById(Stock.StockId stockId);
+}

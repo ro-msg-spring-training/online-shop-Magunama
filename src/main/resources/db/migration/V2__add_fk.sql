@@ -15,7 +15,7 @@ alter table Stock
     references Location(Id);
 
 alter table Order_Detail
-    add foreign key (`Order`)
+    add foreign key (OrderC)
     references OrderT(Id);
 
 alter table Order_Detail

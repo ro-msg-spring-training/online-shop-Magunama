@@ -8,23 +8,24 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
-@Embeddable
-class StockId implements Serializable {
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Product")
-    private Product product;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Location")
-    private Location location;
-}
-
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
 @Table
 public class Stock {
+
+    @Data
+    @Embeddable
+    public static class StockId implements Serializable {
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "Product")
+        private Product product;
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "Location")
+        private Location location;
+    }
 
     @EmbeddedId
     private StockId id;

@@ -8,23 +8,24 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
-@Embeddable
-class OrderDetailId implements Serializable {
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "`Order`")
-    private Order order;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Product")
-    private Product product;
-}
-
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
 @Table
 public class OrderDetail {
+
+    @Data @AllArgsConstructor @NoArgsConstructor
+    @Embeddable
+    public static class OrderDetailId implements Serializable {
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "Orderc")
+        private Order order;
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "Product")
+        private Product product;
+    }
 
     @EmbeddedId
     private OrderDetailId id;
