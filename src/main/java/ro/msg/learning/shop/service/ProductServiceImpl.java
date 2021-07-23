@@ -7,7 +7,6 @@ import ro.msg.learning.shop.model.dto.ProductDTO;
 import ro.msg.learning.shop.repository.ProductRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -35,12 +34,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO updateProduct(int id, ProductDTO newProductDTO) {
-        Optional<Product> product = this.repository.findById(id);
-        if (product.isEmpty()) {
-            throw new ProductNotFoundException(id);
-        }
-
-        Product oldProduct = product.get();
+        Product oldProduct = this.repository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
         Product newProduct = productConverter.toEntity(newProductDTO);
         if (newProduct.getName() != null) {
             oldProduct.setName(newProduct.getName());
@@ -68,22 +62,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO deleteProduct(int id) {
-        Optional<Product> product = this.repository.findById(id);
-        if (product.isEmpty()) {
-            throw new ProductNotFoundException(id);
-        }
-        ProductDTO dto = productConverter.toDTO(product.get());
+        Product product = this.repository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
+        ProductDTO dto = productConverter.toDTO(product);
         this.repository.deleteById(id);
         return dto;
     }
 
     @Override
     public ProductDTO getProduct(int id) {
-        Optional<Product> product = this.repository.findById(id);
-        if (product.isEmpty()) {
-            throw new ProductNotFoundException(id);
-        }
-        return productConverter.toDTO(product.get());
+        Product product = this.repository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
+        return productConverter.toDTO(product);
     }
 
     @Override
