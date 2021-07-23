@@ -67,6 +67,6 @@ public class SingleLocation implements OrderStrategy {
 
     @ResponseStatus(value=HttpStatus.NOT_FOUND,
             reason="Couldn't find a single location that has all the required products")
-    private class NoSuchLocationException extends RuntimeException {
+    class NoSuchLocationException extends RuntimeException {
     }
 }

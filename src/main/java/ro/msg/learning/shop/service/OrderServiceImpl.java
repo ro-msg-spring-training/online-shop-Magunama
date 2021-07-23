@@ -18,10 +18,12 @@ import ro.msg.learning.shop.service.strategy.MostAbundant;
 import ro.msg.learning.shop.service.strategy.OrderStrategy;
 import ro.msg.learning.shop.service.strategy.SingleLocation;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service @AllArgsConstructor
+@Transactional
 public class OrderServiceImpl implements OrderService{
 
     private final OrderStrategyConfig strategyConfig;

@@ -7,6 +7,9 @@ public class OrderConverter implements EntityDTOConverter<Order, OrderDTO>{
 
     @Override
     public OrderDTO toDTO(Order entity) {
+        if (entity == null) {
+            return null;
+        }
         return new OrderDTO(entity.getId(), entity.getCreatedAt(), entity.getAddressCountry(), entity.getAddressCity(),
                 entity.getAddressCounty(), entity.getAddressStreetAddress(), null);
 
@@ -14,6 +17,9 @@ public class OrderConverter implements EntityDTOConverter<Order, OrderDTO>{
 
     @Override
     public Order toEntity(OrderDTO dto) {
+        if (dto == null) {
+            return null;
+        }
         return new Order(dto.getId(), null, null, dto.getCreatedAt(), dto.getAddressCountry(), dto.getAddressCity(),
                 dto.getAddressCounty(), dto.getAddressStreetAddress());
     }

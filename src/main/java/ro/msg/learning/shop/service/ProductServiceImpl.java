@@ -6,7 +6,6 @@ import ro.msg.learning.shop.model.converter.ProductConverter;
 import ro.msg.learning.shop.model.dto.ProductDTO;
 import ro.msg.learning.shop.repository.ProductRepository;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -89,7 +88,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDTO> getProducts() {
-        Collection<Product> products = (Collection<Product>) repository.findAll();
+        List<Product> products = (List<Product>) repository.findAll();
         return products.stream().map(productConverter::toDTO).collect(Collectors.toList());
     }
 }

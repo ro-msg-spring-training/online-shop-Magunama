@@ -18,11 +18,11 @@ public class OrderDetail {
     @Embeddable
     public static class OrderDetailId implements Serializable {
 
-        @ManyToOne(fetch = FetchType.LAZY)
+        @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
         @JoinColumn(name = "Orderc")
         private Order order;
 
-        @ManyToOne(fetch = FetchType.LAZY)
+        @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
         @JoinColumn(name = "Product")
         private Product product;
     }

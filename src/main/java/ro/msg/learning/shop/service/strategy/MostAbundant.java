@@ -58,6 +58,6 @@ public class MostAbundant implements OrderStrategy {
 
     @ResponseStatus(value= HttpStatus.NOT_FOUND,
             reason="Stock unavailable for some of the requested products")
-    private class StockUnavailableException extends RuntimeException {
+    class StockUnavailableException extends RuntimeException {
     }
 }

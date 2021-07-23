@@ -11,9 +11,9 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderDTO {
 
-    private int id;
+    private Integer id;
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createdAt;
 
     private String addressCountry;

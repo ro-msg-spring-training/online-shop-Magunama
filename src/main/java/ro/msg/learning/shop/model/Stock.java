@@ -15,14 +15,14 @@ import java.io.Serializable;
 public class Stock {
 
     @Data
-    @Embeddable
+    @Embeddable @AllArgsConstructor @NoArgsConstructor
     public static class StockId implements Serializable {
 
-        @ManyToOne(fetch = FetchType.LAZY)
+        @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
         @JoinColumn(name = "Product")
         private Product product;
 
-        @ManyToOne(fetch = FetchType.LAZY)
+        @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
         @JoinColumn(name = "Location")
         private Location location;
     }

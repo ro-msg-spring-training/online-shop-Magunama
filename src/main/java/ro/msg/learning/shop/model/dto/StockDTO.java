@@ -13,6 +13,6 @@ public class StockDTO {
     Stock.StockId id;
 
     int product;
-    int location;
+    Integer location;
     int quantity;
 }

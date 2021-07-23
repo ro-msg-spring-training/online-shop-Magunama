@@ -6,6 +6,9 @@ import ro.msg.learning.shop.model.dto.LocationDTO;
 public class LocationConverter implements EntityDTOConverter<Location, LocationDTO>{
     @Override
     public LocationDTO toDTO(Location entity) {
+        if (entity == null) {
+            return null;
+        }
         return new LocationDTO(entity.getId(), entity.getName(), entity.getAddressCountry(), entity.getAddressCity(),
                 entity.getAddressCounty(), entity.getAddressStreetAddress());
 
@@ -13,6 +16,9 @@ public class LocationConverter implements EntityDTOConverter<Location, LocationD
 
     @Override
     public Location toEntity(LocationDTO dto) {
+        if (dto == null) {
+            return null;
+        }
         return new Location(dto.getId(), dto.getName(), dto.getAddressCountry(), dto.getAddressCity(),
                 dto.getAddressCounty(), dto.getAddressStreetAddress());
     }

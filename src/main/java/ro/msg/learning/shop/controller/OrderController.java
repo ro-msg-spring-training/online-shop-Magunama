@@ -1,5 +1,6 @@
 package ro.msg.learning.shop.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,6 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<OrderDTO> placeOrder(@RequestBody OrderDTO orderInfo) {
-        return ResponseEntity.ok(this.service.placeOrder(orderInfo));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.service.placeOrder(orderInfo));
     }
 }
