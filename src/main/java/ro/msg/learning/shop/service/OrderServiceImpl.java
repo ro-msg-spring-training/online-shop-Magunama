@@ -7,8 +7,6 @@ import ro.msg.learning.shop.model.Location;
 import ro.msg.learning.shop.model.Order;
 import ro.msg.learning.shop.model.OrderDetail;
 import ro.msg.learning.shop.model.Stock;
-import ro.msg.learning.shop.model.converter.OrderConverter;
-import ro.msg.learning.shop.model.dto.OrderDTO;
 import ro.msg.learning.shop.model.dto.StockDTO;
 import ro.msg.learning.shop.repository.LocationRepository;
 import ro.msg.learning.shop.repository.OrderDetailRepository;
@@ -27,13 +25,12 @@ import java.util.Optional;
 public class OrderServiceImpl implements OrderService{
 
     private final OrderStrategyConfig strategyConfig;
-    private final OrderConverter orderConverter = new OrderConverter();
     private LocationRepository locationRepository;
     private StockRepository stockRepository;
     private OrderRepository orderRepository;
     private OrderDetailRepository orderDetailRepository;
 
-    private OrderStrategy selectStrategy(){
+    public OrderStrategy selectStrategy(){
         OrderStrategyConfig.StratType configStrategy = strategyConfig.getStrategy();
         if (configStrategy == OrderStrategyConfig.StratType.SINGLE_LOCATION) {
             return new SingleLocation(stockRepository);
@@ -69,15 +66,14 @@ public class OrderServiceImpl implements OrderService{
         }
     }
 
-    private OrderDTO addOrder(OrderDTO orderInfo, List<StockDTO> orderStock) {
+    public Location getPrimaryLocation(List<StockDTO> orderStock) {
         int locationId = orderStock.get(0).getLocation();
-        Optional<Location> location = this.locationRepository.findById(locationId);
+        return this.locationRepository.findById(locationId).get();
+    }
 
-        // create and save new order entity
-        Order newOrder = new Order(0, location.get(), null, orderInfo.getCreatedAt(),
-                orderInfo.getAddressCountry(), orderInfo.getAddressCity(), orderInfo.getAddressCounty(),
-                orderInfo.getAddressStreetAddress());
-        newOrder = this.orderRepository.save(newOrder);
+    @Override
+    public Order placeOrder(Order order, List<StockDTO> orderStock) {
+        Order newOrder = this.orderRepository.save(order);
 
         // create and save new order detail entity
         this.createOrderDetails(orderStock, newOrder);
@@ -85,17 +81,6 @@ public class OrderServiceImpl implements OrderService{
         // modify stock
         this.updateStock(orderStock);
 
-
-        // prepare order dto for return
-        OrderDTO order = orderConverter.toDTO(newOrder);
-        order.setProducts(orderStock);
-        return order;
-    }
-
-    @Override
-    public OrderDTO placeOrder(OrderDTO orderInfo) {
-        OrderStrategy strategy = selectStrategy();
-        List<StockDTO> locations = strategy.run(orderInfo);
-        return addOrder(orderInfo, locations);
+        return newOrder;
     }
 }

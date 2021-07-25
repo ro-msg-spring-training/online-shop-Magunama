@@ -2,12 +2,9 @@ package ro.msg.learning.shop.service;
 
 import org.springframework.stereotype.Service;
 import ro.msg.learning.shop.model.Product;
-import ro.msg.learning.shop.model.converter.ProductConverter;
-import ro.msg.learning.shop.model.dto.ProductDTO;
 import ro.msg.learning.shop.repository.ProductRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 class ProductNotFoundException extends RuntimeException {
@@ -20,22 +17,19 @@ class ProductNotFoundException extends RuntimeException {
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository repository;
-    private final ProductConverter productConverter = new ProductConverter();
 
     ProductServiceImpl (ProductRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public ProductDTO createProduct(ProductDTO product) {
-        Product p = this.repository.save(productConverter.toEntity(product));
-        return productConverter.toDTO(p);
+    public Product createProduct(Product product) {
+        return this.repository.save(product);
     }
 
     @Override
-    public ProductDTO updateProduct(int id, ProductDTO newProductDTO) {
+    public Product updateProduct(int id, Product newProduct) {
         Product oldProduct = this.repository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
-        Product newProduct = productConverter.toEntity(newProductDTO);
         if (newProduct.getName() != null) {
             oldProduct.setName(newProduct.getName());
         }
@@ -56,27 +50,22 @@ public class ProductServiceImpl implements ProductService {
         }
 
         // save old (modified) product
-        this.repository.save(oldProduct);
-        return productConverter.toDTO(oldProduct);
+        return this.repository.save(oldProduct);
     }
 
     @Override
-    public ProductDTO deleteProduct(int id) {
-        Product product = this.repository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
-        ProductDTO dto = productConverter.toDTO(product);
+    public void deleteProduct(int id) {
+        this.repository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
         this.repository.deleteById(id);
-        return dto;
     }
 
     @Override
-    public ProductDTO getProduct(int id) {
-        Product product = this.repository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
-        return productConverter.toDTO(product);
+    public Product getProduct(int id) {
+        return this.repository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     @Override
-    public List<ProductDTO> getProducts() {
-        List<Product> products = (List<Product>) repository.findAll();
-        return products.stream().map(productConverter::toDTO).collect(Collectors.toList());
+    public List<Product> getProducts() {
+        return (List<Product>) repository.findAll();
     }
 }

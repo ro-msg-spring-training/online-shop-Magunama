@@ -1,8 +1,10 @@
 package ro.msg.learning.shop.model.converter;
 
+import org.springframework.stereotype.Component;
 import ro.msg.learning.shop.model.Order;
 import ro.msg.learning.shop.model.dto.OrderDTO;
 
+@Component
 public class OrderConverter implements EntityDTOConverter<Order, OrderDTO>{
 
     @Override
@@ -10,9 +12,13 @@ public class OrderConverter implements EntityDTOConverter<Order, OrderDTO>{
         if (entity == null) {
             return null;
         }
-        return new OrderDTO(entity.getId(), entity.getCreatedAt(), entity.getAddressCountry(), entity.getAddressCity(),
-                entity.getAddressCounty(), entity.getAddressStreetAddress(), null);
-
+        return OrderDTO.builder()
+                .id(entity.getId())
+                .createdAt(entity.getCreatedAt())
+                .addressCountry(entity.getAddressCountry())
+                .addressCity(entity.getAddressCity())
+                .addressCounty(entity.getAddressCounty())
+                .addressStreetAddress(entity.getAddressStreetAddress()).build();
     }
 
     @Override
@@ -20,7 +26,12 @@ public class OrderConverter implements EntityDTOConverter<Order, OrderDTO>{
         if (dto == null) {
             return null;
         }
-        return new Order(dto.getId(), null, null, dto.getCreatedAt(), dto.getAddressCountry(), dto.getAddressCity(),
-                dto.getAddressCounty(), dto.getAddressStreetAddress());
+        return Order.builder()
+//                .id(0)
+                .createdAt(dto.getCreatedAt())
+                .addressCountry(dto.getAddressCountry())
+                .addressCity(dto.getAddressCity())
+                .addressCounty(dto.getAddressCounty())
+                .addressStreetAddress(dto.getAddressStreetAddress()).build();
     }
 }

@@ -11,8 +11,11 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import ro.msg.learning.shop.model.Order;
+import ro.msg.learning.shop.model.converter.OrderConverter;
 import ro.msg.learning.shop.model.dto.OrderDTO;
 import ro.msg.learning.shop.model.dto.StockDTO;
+import ro.msg.learning.shop.repository.StockRepository;
 import ro.msg.learning.shop.service.OrderServiceImpl;
 
 import java.sql.Timestamp;
@@ -35,6 +38,12 @@ class AbundantStrategyUnitTest {
 
     @Autowired
     private OrderServiceImpl orderService;
+
+    @Autowired
+    private OrderConverter orderConverter;
+
+    @Autowired
+    private StockRepository stockRepository;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -76,15 +85,22 @@ class AbundantStrategyUnitTest {
     @Test
     void runRight(){
         OrderDTO order = makeOrderRight();
-        OrderDTO orderResult = orderService.placeOrder(order);
-        assertEquals(1, orderResult.getProducts().get(0).getLocation());
-        assertEquals(2, orderResult.getProducts().get(1).getLocation());
+
+        OrderStrategy strategy = new MostAbundant(stockRepository);
+        List<StockDTO> finalProducts = strategy.run(order);
+
+        Order orderResult = orderService.placeOrder(orderConverter.toEntity(order), finalProducts);
+        assertEquals(1, orderResult.getId());
+        assertEquals(1, finalProducts.get(0).getLocation());
+        assertEquals(2, finalProducts.get(1).getLocation());
     }
 
     @Test
     void runWrong(){
         OrderDTO order = makeOrderWrong();
-        assertThrows(MostAbundant.StockUnavailableException.class, () -> orderService.placeOrder(order));
+        OrderStrategy strategy = new MostAbundant(stockRepository);
+
+        assertThrows(MostAbundant.StockUnavailableException.class, () -> strategy.run(order));
     }
 
 }

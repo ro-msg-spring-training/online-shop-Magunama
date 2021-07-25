@@ -1,8 +1,10 @@
 package ro.msg.learning.shop.model.converter;
 
+import org.springframework.stereotype.Component;
 import ro.msg.learning.shop.model.ProductCategory;
 import ro.msg.learning.shop.model.dto.ProductCategoryDTO;
 
+@Component
 public class ProductCategoryConverter implements EntityDTOConverter <ProductCategory, ProductCategoryDTO> {
 
     @Override
@@ -10,15 +12,22 @@ public class ProductCategoryConverter implements EntityDTOConverter <ProductCate
         if (entity == null) {
             return null;
         }
-        return new ProductCategoryDTO(entity.getId(), entity.getName(), entity.getDescription());
 
-    }
+        return ProductCategoryDTO.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .description(entity.getDescription()).build();
+        }
 
     @Override
     public ProductCategory toEntity(ProductCategoryDTO dto) {
         if (dto == null) {
             return null;
         }
-        return new ProductCategory(dto.getId(), dto.getName(), dto.getDescription());
+
+        return ProductCategory.builder()
+                .id(dto.getId())
+                .name(dto.getName())
+                .description(dto.getDescription()).build();
     }
 }

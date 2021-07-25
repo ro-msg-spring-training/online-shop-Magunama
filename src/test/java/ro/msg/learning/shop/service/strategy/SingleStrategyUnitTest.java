@@ -11,8 +11,11 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import ro.msg.learning.shop.model.Order;
+import ro.msg.learning.shop.model.converter.OrderConverter;
 import ro.msg.learning.shop.model.dto.OrderDTO;
 import ro.msg.learning.shop.model.dto.StockDTO;
+import ro.msg.learning.shop.repository.StockRepository;
 import ro.msg.learning.shop.service.OrderServiceImpl;
 
 import java.sql.Timestamp;
@@ -35,6 +38,13 @@ class SingleStrategyUnitTest {
 
     @Autowired
     private OrderServiceImpl orderService;
+
+    @Autowired
+    private StockRepository stockRepository;
+
+    @Autowired
+    private OrderConverter orderConverter;
+
 
     @BeforeEach
     void setUp() throws Exception {
@@ -76,15 +86,22 @@ class SingleStrategyUnitTest {
     @Test
     void runRight(){
         OrderDTO order = makeOrderRight();
-        OrderDTO orderResult = orderService.placeOrder(order);
-        assertEquals(2, orderResult.getProducts().get(0).getLocation());
-        assertEquals(2, orderResult.getProducts().get(1).getLocation());
+
+        OrderStrategy strategy = new SingleLocation(stockRepository);
+        List<StockDTO> finalProducts = strategy.run(order);
+
+        Order orderResult = orderService.placeOrder(orderConverter.toEntity(order), finalProducts);
+        assertEquals(1, orderResult.getId());
+        assertEquals(2, finalProducts.get(0).getLocation());
+        assertEquals(2, finalProducts.get(1).getLocation());
     }
 
     @Test
     void runWrong(){
         OrderDTO order = makeOrderWrong();
-        assertThrows(SingleLocation.NoSuchLocationException.class, () -> orderService.placeOrder(order));
+        OrderStrategy strategy = new SingleLocation(stockRepository);
+
+        assertThrows(SingleLocation.NoSuchLocationException.class, () -> strategy.run(order));
     }
 
 }

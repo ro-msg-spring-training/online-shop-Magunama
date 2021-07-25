@@ -1,15 +1,15 @@
 package ro.msg.learning.shop.service;
 
 
-import ro.msg.learning.shop.model.dto.ProductDTO;
+import ro.msg.learning.shop.model.Product;
 
 import java.util.List;
 
 
 public interface ProductService {
-    ProductDTO createProduct(ProductDTO product);
-    ProductDTO updateProduct(int id, ProductDTO product);
-    ProductDTO deleteProduct(int id);
-    ProductDTO getProduct(int id);
-    List<ProductDTO> getProducts();
+    Product createProduct(Product product);
+    Product updateProduct(int id, Product product);
+    void deleteProduct(int id);
+    Product getProduct(int id);
+    List<Product> getProducts();
 }

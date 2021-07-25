@@ -9,9 +9,13 @@ public class LocationConverter implements EntityDTOConverter<Location, LocationD
         if (entity == null) {
             return null;
         }
-        return new LocationDTO(entity.getId(), entity.getName(), entity.getAddressCountry(), entity.getAddressCity(),
-                entity.getAddressCounty(), entity.getAddressStreetAddress());
 
+        return LocationDTO.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .addressCountry(entity.getAddressCountry())
+                .addressCity(entity.getAddressCity())
+                .addressStreetAddress(entity.getAddressStreetAddress()).build();
     }
 
     @Override
@@ -19,7 +23,13 @@ public class LocationConverter implements EntityDTOConverter<Location, LocationD
         if (dto == null) {
             return null;
         }
-        return new Location(dto.getId(), dto.getName(), dto.getAddressCountry(), dto.getAddressCity(),
-                dto.getAddressCounty(), dto.getAddressStreetAddress());
+
+        return Location.builder()
+                .id(dto.getId())
+                .name(dto.getName())
+                .addressCountry(dto.getAddressCountry())
+                .addressCity(dto.getAddressCity())
+                .addressCounty(dto.getAddressCounty())
+                .addressStreetAddress(dto.getAddressStreetAddress()).build();
     }
 }

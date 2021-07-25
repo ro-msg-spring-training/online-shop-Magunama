@@ -1,11 +1,12 @@
 package ro.msg.learning.shop.model.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 
 @Data
-@AllArgsConstructor
+@AllArgsConstructor @Builder
 public class LocationDTO {
     private int id;
     private String name;
