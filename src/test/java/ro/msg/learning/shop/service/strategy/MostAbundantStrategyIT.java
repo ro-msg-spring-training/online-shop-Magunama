@@ -26,9 +26,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(locations = "classpath:application-test-single.properties")
+@TestPropertySource(locations = "classpath:application-test-abundant.properties")
 @ActiveProfiles("test")
-class SingleStrategyIntegrationTest {
+class MostAbundantStrategyIT {
 
     @Autowired
     private MockMvc mvc;
@@ -60,7 +60,7 @@ class SingleStrategyIntegrationTest {
         LocalDateTime now = ts.toLocalDateTime();
 
         List<StockDTO> products = new ArrayList<>();
-        products.add(new StockDTO(null, 1, null, 2));
+        products.add(new StockDTO(null, 1, null, 1));
         products.add(new StockDTO(null, 2, null, 1));
 
         return new OrderDTO(null, now, "Romania", "Timisoara",
@@ -72,15 +72,15 @@ class SingleStrategyIntegrationTest {
         LocalDateTime now = ts.toLocalDateTime();
 
         List<StockDTO> products = new ArrayList<>();
-        products.add(new StockDTO(null, 1, null, 2));
-        products.add(new StockDTO(null, 3, null, 3));
+        products.add(new StockDTO(null, 1, null, 4));
+        products.add(new StockDTO(null, 2, null, 1));
 
         return new OrderDTO(null, now, "Romania", "Timisoara",
                 "Timis", "Str. Garii 12", products);
     }
 
     @Test
-    void runWrong() throws Exception {
+    void createOrder_orderNotCreated_status404() throws Exception {
         OrderDTO order = this.makeOrderWrong();
         String orderStr = asJsonString(order);
 
@@ -92,7 +92,7 @@ class SingleStrategyIntegrationTest {
     }
 
     @Test
-    void runRight() throws Exception {
+    void createOrder_orderCreated_status200() throws Exception {
         OrderDTO order = this.makeOrderRight();
         String orderStr = asJsonString(order);
 
@@ -101,6 +101,5 @@ class SingleStrategyIntegrationTest {
                 .accept(MediaType.APPLICATION_JSON);
 
         mvc.perform(request).andExpect(status().isCreated());
-
     }
 }

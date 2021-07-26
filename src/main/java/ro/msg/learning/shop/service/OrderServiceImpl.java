@@ -25,10 +25,10 @@ import java.util.Optional;
 public class OrderServiceImpl implements OrderService{
 
     private final OrderStrategyConfig strategyConfig;
-    private LocationRepository locationRepository;
-    private StockRepository stockRepository;
-    private OrderRepository orderRepository;
-    private OrderDetailRepository orderDetailRepository;
+    private final LocationRepository locationRepository;
+    private final StockRepository stockRepository;
+    private final OrderRepository orderRepository;
+    private final OrderDetailRepository orderDetailRepository;
 
     public OrderStrategy selectStrategy(){
         OrderStrategyConfig.StratType configStrategy = strategyConfig.getStrategy();

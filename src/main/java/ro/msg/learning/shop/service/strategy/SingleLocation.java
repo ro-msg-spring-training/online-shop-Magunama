@@ -45,19 +45,14 @@ public class SingleLocation implements OrderStrategy {
 
             Integer quantity = OrderDTO.getQuantityById(orderedProducts, productId);
 
-            // curr product not found in order list
-            if (quantity == null) {
-                continue;
-            }
+            // curr product found in order list
+            // and curr product entirely available in this location
+            if (quantity != null && quantity <= stock.getQuantity()) {
+                int locationId = stockId.getLocation().getId();
 
-            // curr product not entirely available in this location
-            if (quantity > stock.getQuantity()) {
-                continue;
+                potentialLocations.putIfAbsent(locationId, new ArrayList<>());
+                potentialLocations.get(locationId).add(new StockDTO(stockId, productId, locationId, quantity));
             }
-
-            int locationId = stockId.getLocation().getId();
-            potentialLocations.putIfAbsent(locationId, new ArrayList<>());
-            potentialLocations.get(locationId).add(new StockDTO(stockId, productId, locationId, quantity));
         }
 
         // obtain best location

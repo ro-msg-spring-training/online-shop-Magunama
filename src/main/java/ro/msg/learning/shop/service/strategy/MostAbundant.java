@@ -31,21 +31,15 @@ public class MostAbundant implements OrderStrategy {
 
             Integer quantity = OrderDTO.getQuantityById(orderedProducts, productId);
 
-            // curr product not found in order list
-            if (quantity == null) {
-                continue;
-            }
+            // curr product found in order list
+            // and curr product entirely available in this location
+            if (quantity != null && quantity <= stock.getQuantity()) {
+                int locationId = stockId.getLocation().getId();
 
-            // curr product not entirely available in this location
-            if (quantity > stock.getQuantity()) {
-                continue;
-            }
-
-            int locationId = stockId.getLocation().getId();
-
-            orderStock.putIfAbsent(productId, new StockDTO(stockId, productId, locationId, quantity));
-            if (quantity > orderStock.get(productId).getQuantity()) {
-                orderStock.put(productId, new StockDTO(stockId, productId, locationId, quantity));
+                orderStock.putIfAbsent(productId, new StockDTO(stockId, productId, locationId, quantity));
+                if (quantity > orderStock.get(productId).getQuantity()) {
+                    orderStock.put(productId, new StockDTO(stockId, productId, locationId, quantity));
+                }
             }
         }
 

@@ -14,17 +14,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final CustomerRepository repository;
 
     @Override
-    public Optional<Customer> getUser(Integer id) {
+    public final Optional<Customer> getUser(Integer id) {
         return this.repository.findById(id);
     }
 
     @Override
-    public Optional<Customer> getUser(String username) {
+    public final Optional<Customer> getUser(String username) {
         return this.repository.findCustomerByUsername(username);
     }
 
     @Override
-    public List<Customer> getUsers() {
+    public final List<Customer> getUsers() {
         return (List<Customer>) this.repository.findAll();
     }
 }

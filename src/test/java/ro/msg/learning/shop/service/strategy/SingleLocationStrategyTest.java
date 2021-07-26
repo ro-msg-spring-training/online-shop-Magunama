@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:application-test-single.properties")
 @ActiveProfiles("test")
-class SingleStrategyUnitTest {
+class SingleLocationStrategyTest {
 
     @Autowired
     private MockMvc mvc;
@@ -84,7 +84,7 @@ class SingleStrategyUnitTest {
 
 
     @Test
-    void runRight(){
+    void createOrder_LocationFound(){
         OrderDTO order = makeOrderRight();
 
         OrderStrategy strategy = new SingleLocation(stockRepository);
@@ -92,12 +92,13 @@ class SingleStrategyUnitTest {
 
         Order orderResult = orderService.placeOrder(orderConverter.toEntity(order), finalProducts);
         assertEquals(1, orderResult.getId());
+        assertEquals(2, finalProducts.size());
         assertEquals(2, finalProducts.get(0).getLocation());
         assertEquals(2, finalProducts.get(1).getLocation());
     }
 
     @Test
-    void runWrong(){
+    void createOrder_throwsNoSuchLocationException(){
         OrderDTO order = makeOrderWrong();
         OrderStrategy strategy = new SingleLocation(stockRepository);
 
