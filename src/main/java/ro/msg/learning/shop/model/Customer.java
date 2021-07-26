@@ -2,6 +2,7 @@ package ro.msg.learning.shop.model;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor @Builder
 @Table
 public class Customer {
 
@@ -31,5 +32,9 @@ public class Customer {
 
     @Column
     private String emailAddress;
+
+    public String getFullName() {
+        return this.firstName + ' ' + this.lastName;
+    }
 
 }
